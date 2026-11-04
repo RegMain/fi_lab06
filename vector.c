@@ -32,10 +32,11 @@ int vec_tr_set_size(vec_tr *vec, int32_t size) {
   if (size < vec->capacity) {
     return 0;
   }
-  vec->ptr = (transaction *)realloc(vec->ptr, sizeof(transaction) * size * 2);
-  if (!vec->ptr) {
+  transaction* tmp = (transaction *)realloc(vec->ptr, sizeof(transaction) * size * 2);
+  if (!tmp) {
     return -1;
   }
+  vec->ptr = tmp;
   vec->size = size;
   vec->capacity = 2 * size;
   return 0;
@@ -102,10 +103,11 @@ int vec_cl_set_size(vec_cl *vec, int32_t size) {
   if (size < vec->capacity) {
     return 0;
   }
-  vec->ptr = (client *)realloc(vec->ptr, sizeof(transaction) * size * 2);
-  if (!vec->ptr) {
+  client *tmp = (client *)realloc(vec->ptr, sizeof(transaction) * size * 2);
+  if (!tmp) {
     return -1;
   }
+  vec->ptr = tmp;
   vec->size = size;
   vec->capacity = 2 * size;
   return 0;
