@@ -1,24 +1,10 @@
 #pragma once
 #include <stdint.h>
+#include "client.h"
+#include "vec_cl.h"
 
-typedef struct {
-  int8_t day;
-  int8_t month;
-  int8_t year;
-} date;
+client *get_by_id(vec_cl *clients, uint32_t id);
 
-typedef struct {
-  date dt;
-  uint32_t time;
-  int type;
-  double rub;
-} transaction;
-
-typedef struct {
-  uint32_t id;
-  char *surname;
-  char *name;
-  char *patronym;
-  uint32_t tr_cnt;
-  transaction *transactions;
-} client;
+int cmp(client *x, client *y);
+ 
+void sort_clients(vec_cl *clients, int (*cmp)(client *x, client *y));
