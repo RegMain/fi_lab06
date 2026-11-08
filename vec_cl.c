@@ -1,5 +1,5 @@
 #include "vec_cl.h"
-#include "models.h"
+#include "vec_tr.h"
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -22,7 +22,18 @@ int vec_cl_destroy(vec_cl *vec) {
   if (!vec) {
     return -1;
   }
+  for (int32_t i = 0; i < vec->size; ++i) {
+    if (vec->ptr[i].transactions) {
+      vec_tr_destroy(vec->ptr[i].transactions);
+    }
+  }
+  if (!vec->ptr) {
+    free(vec);
+    return 0;
+  }
+  free(vec->ptr);
   free(vec);
+  return 0;
 }
 
 int vec_cl_set_size(vec_cl *vec, int32_t size) {
@@ -32,7 +43,7 @@ int vec_cl_set_size(vec_cl *vec, int32_t size) {
   if (size < vec->capacity) {
     return 0;
   }
-  client *tmp = (client *)realloc(vec->ptr, sizeof(transaction) * size * 2);
+  client *tmp = (client *)realloc(vec->ptr, sizeof(client) * size * 2);
   if (!tmp) {
     return -1;
   }
