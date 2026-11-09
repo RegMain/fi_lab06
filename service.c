@@ -48,7 +48,7 @@ int bs_cmp(client *x, int32_t val) {
   return x->transactions->size < val;
 }
 
-client *cl_binary_search(vec_cl *clients, int32_t l, int32_t r, int32_t x, int (*bs_cmp)(client *x, int32_t val)) {
+cl_bs_res *cl_binary_search(vec_cl *clients, int32_t l, int32_t r, int32_t x, int (*bs_cmp)(client *x, int32_t val)) {
   if (!clients) {
     return NULL;
   }
@@ -61,8 +61,12 @@ client *cl_binary_search(vec_cl *clients, int32_t l, int32_t r, int32_t x, int (
       r = m;
     }
   }
+  cl_bs_res *res = (cl_bs_res *)malloc(sizeof(cl_bs_res));
   if (r == *vec_cl_get_size(clients)) {
-    return vec_cl_get(clients, l);
+    res->r = vec_cl_get(clients, r - 1);
+  } else {
+    res->r = vec_cl_get(clients, r);
   }
-  return vec_cl_get(clients, r);
+  res->l = vec_cl_get(clients, l);
+  return res;
 }

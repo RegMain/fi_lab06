@@ -9,7 +9,11 @@ vec_cl *vec_cl_init(int32_t size) {
     return NULL;
   }
   vec->size = size;
-  vec->capacity = size;
+  if (size == 0) {
+    vec->capacity = 4;
+  } else {
+    vec->capacity = size;
+  }
   vec->ptr = (client *)malloc(sizeof(client) * vec->capacity);
   if (!vec->ptr) {
     free(vec);
@@ -41,6 +45,7 @@ int vec_cl_set_size(vec_cl *vec, int32_t size) {
     return -1;
   }
   if (size < vec->capacity) {
+    vec->size = size;
     return 0;
   }
   client *tmp = (client *)realloc(vec->ptr, sizeof(client) * size * 2);

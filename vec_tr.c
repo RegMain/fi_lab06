@@ -8,7 +8,11 @@ vec_tr *vec_tr_init(int32_t size) {
     return NULL;
   }
   vec->size = size;
-  vec->capacity = size;
+  if (vec->size == 0) {
+    vec->capacity = 4;
+  } else {
+    vec->capacity = size;
+  }
   vec->ptr = (transaction *)malloc(sizeof(transaction) * vec->capacity);
   if (!vec->ptr) {
     free(vec);
@@ -29,6 +33,7 @@ int vec_tr_set_size(vec_tr *vec, int32_t size) {
     return -1;
   }
   if (size < vec->capacity) {
+    vec->size = size;
     return 0;
   }
   transaction* tmp = (transaction *)realloc(vec->ptr, sizeof(transaction) * size * 2);

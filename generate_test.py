@@ -2,8 +2,6 @@ from random import randint, choice
 
 with open("test.txt", "w") as f:
     amount = randint(10, 30);
-    f.write(str(amount))
-    f.write("\n\n")
     for i in range(amount):
         id = randint(1,100000000)
         # I literally don't care about 1e-8
