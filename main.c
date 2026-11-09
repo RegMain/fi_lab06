@@ -48,6 +48,11 @@ int main(void) {
   client *higher = cl_binary_search(clients, 0, *vec_cl_get_size(clients), average + 1, bs_cmp)->r;
   printf("Lower: %s %s %s ID %d (%d)\n", lower->surname, lower->name, lower->patronym, lower->id, lower->transactions->size);
   printf("Higher: %s %s %s ID %d (%d)\n", higher->surname, higher->name, higher->patronym, higher->id, higher->transactions->size);
+  printf("\nClients (transactions):\n");
+  for (int32_t i = 0; i < *vec_cl_get_size(clients); ++i) {
+    client *client_i_ptr = vec_cl_get(clients, i);
+    printf("%s %s %s ID %d (%d)\n", client_i_ptr->surname, client_i_ptr->name, client_i_ptr->patronym, client_i_ptr->id, *vec_tr_get_size(client_i_ptr->transactions));
+  }
   vec_cl_destroy(clients);
   fclose(file);
   return 0;
